@@ -88,3 +88,9 @@ def test_command_line_footprint_comparison(tmp_path):
     narrow = next(l for l in out if l.startswith("N ")).split()
     wide = next(l for l in out if l.startswith("W ")).split()
     assert narrow[2:5] == ["0.22", "0.150", "0.52"] and wide[2:5] == ["1.04", "0.350", "1.74"]
+
+
+def test_command_line_net(tmp_path):
+    (tmp_path / "t.kicad_pcb").write_text(PCB, encoding="utf-8")
+    out = subprocess.run([sys.executable, "-m", "pufdfm", "net", "--project", str(tmp_path), "/GATE", "/SIG"], capture_output=True, text=True, check=True).stdout
+    assert "/GATE: pads Q1.2; 0 track segments; 0 vias" in out and "/SIG: pads J.2; 1 track segments; 1 vias" in out

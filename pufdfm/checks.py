@@ -120,3 +120,9 @@ def hole_to_track(pcb, top=4):
                 d = LineString([(s["x1"], s["y1"]), (s["x2"], s["y2"])]).distance(Point(p["x"], p["y"])) - p["drill"] / 2 - s["width"] / 2
                 rows.append((d, f"{f['ref']}.{p['number']}", f"track{i}", s["net"]))
     return sorted(rows)[:top]
+
+
+def net_members(pcb, net):
+    """What is on one net: ([pads as 'REF.pin'], number of track segments, number of vias). Shows, for instance, which parts a signal really passes through."""
+    pads = [f"{f['ref']}.{p['number']}" for f in pcb["footprints"] for p in f["pads"] if p["net"] == net]
+    return pads, sum(1 for s in pcb["segments"] if s["net"] == net), sum(1 for v in pcb["vias"] if v["net"] == net)

@@ -21,7 +21,7 @@ The tool in `pufdfm/` reads the KiCad text files directly. `python -m pufdfm rep
   It does not cover copper, silkscreen or solder mask, and the PCB file was saved after the order, so tracks could have changed; I have not compared the copper layers with the Gerbers.
 - **My first pass was wrong, and I caught it.** It reported a track 0.099 mm from R3's pad, below the board's own 0.2 mm rule. The cause was my pad model: it treated the 0805 pads' rounded corners as square. With the rounded corners
   the gap is about 0.205 mm. A test now pins that case (`test_checks.py`).
-- 39 tests pass. I also broke the tool on purpose in 23 ways (wrong rotation, square corners, same-net items, annular ring on the wrong side, drill axis flipped, BOM merging do-not-populate parts, and so on) and all 23 are caught.
+- 57 tests pass. I also broke the tool on purpose in 31 ways (wrong rotation, square corners, same-net items, annular ring on the wrong side, drill axis flipped, BOM merging do-not-populate parts, and so on) and all 31 are caught.
   The first run of that check was unreliable because Python kept a stale compiled copy of a file; I found it, switched the cache off for the check, and four gaps in my tests turned up and were closed.
 
 ## Findings
@@ -39,6 +39,7 @@ Severity is my judgement: **A** worth changing in a next revision, **B** minor o
 | 7 | No copper zones: no ground plane or pour, all 145 track segments are 0.2 mm | `zones = 0`; track widths | fabricable; worth noting for a board whose thesis found ground-plane geometry mattered | B |
 | 8 | The surface finish ordered is leaded HASL | order specification | fine for a research board; a product would need lead-free HASL or ENIG | B |
 | 9 | R2 (the 100 kOhm gate pull-down) is left off, so Q1's gate floats whenever the host pin is not driving it (reset, boot) | schematic nets `/GATE_DRV`; photos | design decision to confirm; carried into the DFMEA | A, to confirm |
+| 14 | R1 is the only connection between the host's gate-drive pin and Q1's gate, and the photographed board has it empty, so Q1 would be undriven unless a wire or solder link was added | `pufdfm net`: the host gate net is on J2.8, J1B1.10 and R1.1 only; Q1's gate net is on Q1.2, R1.2 and R2.1 only; photo: R1 pads empty | none (design analysis); needs the builder's answer | A, to confirm |
 | 10 | Spacing: the smallest gap between copper of different nets is **0.202 mm** | computed with rounded pad corners | project rule 0.2 mm; JLCPCB 0.10 mm | C |
 | 11 | Copper to board edge 0.762 mm (via) | computed | project rule 0.5 mm; JLCPCB 0.2 mm | C |
 | 12 | Plated hole edge to a track of another net 0.400 mm | computed | JLCPCB minimum 0.28 mm, recommended 0.35 mm | C |
@@ -58,6 +59,6 @@ DFMEA (stage 3); alternative parts and a costed bill of materials (stage 4); a c
 
 Answered: the chips in the sockets are marked I/P (8-lead PDIP), recorded in `bom/puf_shield_as_built.csv`.
 
-1. Was R2 left off on purpose, and why?
+1. On the board that ran the captures, how did the host's gate pin reach Q1's gate: was R1 fitted, or a wire or solder link added? (R2: the builder does not remember why it is left off.)
 2. Did the tracks change after the 3 Aug order?
 3. The order file records 24.25 as the amount paid. In which currency, and did it include shipping?

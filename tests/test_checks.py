@@ -86,3 +86,9 @@ def test_copper_of_the_same_net_is_never_reported_but_other_nets_are():
     assert frozenset(("a", "b")) not in pairs                      # same net, 0.1 mm apart: meant to be connected
     assert frozenset(("a", "c")) in pairs                          # different nets, same layer
     assert not any("d" in p for p in pairs)                        # d is on the other side of the board
+
+
+def test_net_members_lists_the_pads_tracks_and_vias_on_a_net(pcb):
+    assert checks.net_members(pcb, "/SIG") == (["J.2"], 1, 1)
+    assert checks.net_members(pcb, "GND") == (["J.1", "Q1.1"], 1, 0)
+    assert checks.net_members(pcb, "/NOPE") == ([], 0, 0)

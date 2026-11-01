@@ -1,8 +1,8 @@
 refs,qty,value,package,fitted,order_code,evidence,notes
 "C1, C2",2,100n,0805 capacitor,yes,CPC CA07634,photo of the board; order code from the earlier parts list (not re-checked),
 R3,1,4k7,0805 resistor,yes,CPC RE08049,photo of the board; order code from the earlier parts list (not re-checked),
-R1,1,0R,0805 resistor,no,,photo: pads empty; left off on purpose per the thesis appendix (earlier chat),the schematic does not mark it do-not-populate
-R2,1,100k,0805 resistor,no,,photo: pads empty; left off on purpose per the thesis appendix (earlier chat),the schematic does not mark it do-not-populate; this is the gate pull-down
+R1,1,0R,0805 resistor,no,,photo: pads empty; reason not recorded,the schematic does not mark it do-not-populate; it is the only link from the host gate pin to Q1 so how the working board was wired is to be confirmed
+R2,1,100k,0805 resistor,no,,photo: pads empty; reason not recorded (the builder does not remember),the schematic does not mark it do-not-populate; this is the gate pull-down
 C3,1,10u,0805 capacitor,no,,photo: pads empty,no matching part in the parts list; the schematic does not mark it do-not-populate
 Q1,1,2N7000,TO-92 (inline 1.27 mm pads),yes,from stock,photo of the board,manufacturer and date code not recorded
 "U1, U2",2,DIP-8 socket,turned-pin DIP-8,yes,CPC SC15361,photo of the board; order code from the earlier parts list (not re-checked),

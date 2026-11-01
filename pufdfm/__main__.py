@@ -1,5 +1,7 @@
 """python -m pufdfm report --project DIR [--gerbers DIR]   prints the manufacturing measurements for a KiCad project
    python -m pufdfm bom --project DIR [--out FILE]          writes the as-designed bill of materials as CSV
+   python -m pufdfm dfmea FILE [--markdown]                  checks a DFMEA table and prints it ranked by risk priority number
+   python -m pufdfm net --project DIR NAME...                which pads, tracks and vias are on a net
    python -m pufdfm footprint FILE...                       pad gap, annular ring and hole spacing of library footprints (.kicad_mod)"""
 from __future__ import annotations
 
@@ -7,7 +9,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from . import bom, checks, drill, kicad
+from . import bom, checks, dfmea, drill, kicad
 
 
 def _one(directory, pattern):
@@ -61,6 +63,29 @@ def cmd_report(args):
     return 0
 
 
+def cmd_dfmea(args):
+    rows = dfmea.load(Path(args.file).read_text(encoding="utf-8"))
+    problems = dfmea.validate(rows)
+    if problems:
+        print("\n".join(problems))
+        return 1
+    if args.markdown:
+        print(dfmea.to_markdown(rows), end="")
+        return 0
+    print(f"{len(rows)} failure modes, ranked by RPN (severity x occurrence x detection):")
+    for r in dfmea.ranked(rows):
+        print(f"  {dfmea.rpn(r):4d}  S{r['severity']} O{r['occurrence']} D{r['detection']}  {r['id']}  {r['failure_mode']}  [{r['evidence_type']}]")
+    return 0
+
+
+def cmd_net(args):
+    pcb = kicad.load_pcb(_one(args.project, "*.kicad_pcb"))
+    for name in args.names:
+        pads, tracks, vias = checks.net_members(pcb, name)
+        print(f"{name}: pads {', '.join(pads) if pads else 'none'}; {tracks} track segments; {vias} vias")
+    return 0
+
+
 def cmd_footprint(args):
     print(f"{'footprint':36s} pads  pad gap  ring  hole gap  pad size       drill")
     for path in args.files:
@@ -88,6 +113,14 @@ def main(argv=None):
     b.add_argument("--project", required=True)
     b.add_argument("--out")
     b.set_defaults(fn=cmd_bom)
+    d = sub.add_parser("dfmea")
+    d.add_argument("file")
+    d.add_argument("--markdown", action="store_true")
+    d.set_defaults(fn=cmd_dfmea)
+    n = sub.add_parser("net")
+    n.add_argument("--project", required=True)
+    n.add_argument("names", nargs="+")
+    n.set_defaults(fn=cmd_net)
     fpc = sub.add_parser("footprint")
     fpc.add_argument("files", nargs="+")
     fpc.set_defaults(fn=cmd_footprint)
