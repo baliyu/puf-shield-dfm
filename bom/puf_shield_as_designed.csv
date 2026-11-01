@@ -1,0 +1,12 @@
+refs,qty,value,footprint,dnp
+"C1, C2",2,100n,Capacitor_SMD:C_0805_2012Metric,no
+C3,1,10u,Capacitor_SMD:C_0805_2012Metric,no
+J1A1,1,Feather 16-pin,Connector_PinHeader_2.54mm:PinHeader_1x16_P2.54mm_Vertical,no
+J1B1,1,Feather 12-pin,Connector_PinHeader_2.54mm:PinHeader_1x12_P2.54mm_Vertical,no
+J2,1,AUX/STM32,Connector_PinHeader_2.54mm:PinHeader_1x10_P2.54mm_Vertical,no
+J3,1,DS18B20,Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical,no
+Q1,1,2N7000,Package_TO_SOT_THT:TO-92_Inline,no
+R1,1,0R,Resistor_SMD:R_0805_2012Metric,no
+R2,1,100k,Resistor_SMD:R_0805_2012Metric,no
+R3,1,4k7,Resistor_SMD:R_0805_2012Metric,no
+"U1, U2",2,23K640,Package_DIP:DIP-8_W7.62mm_Socket,no

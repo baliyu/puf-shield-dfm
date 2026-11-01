@@ -1,0 +1,13 @@
+refs,qty,value,package,fitted,order_code,evidence,notes
+"C1, C2",2,100n,0805 capacitor,yes,CPC CA07634,photo of the board; order code from the earlier parts list (not re-checked),
+R3,1,4k7,0805 resistor,yes,CPC RE08049,photo of the board; order code from the earlier parts list (not re-checked),
+R1,1,0R,0805 resistor,no,,photo: pads empty; left off on purpose per the thesis appendix (earlier chat),the schematic does not mark it do-not-populate
+R2,1,100k,0805 resistor,no,,photo: pads empty; left off on purpose per the thesis appendix (earlier chat),the schematic does not mark it do-not-populate; this is the gate pull-down
+C3,1,10u,0805 capacitor,no,,photo: pads empty,no matching part in the parts list; the schematic does not mark it do-not-populate
+Q1,1,2N7000,TO-92 (inline 1.27 mm pads),yes,from stock,photo of the board,manufacturer and date code not recorded
+"U1, U2",2,DIP-8 socket,turned-pin DIP-8,yes,CPC SC15361,photo of the board; order code from the earlier parts list (not re-checked),
+"U1, U2 contents",2,23K640 serial SRAM,8-lead PDIP (to be confirmed),yes,from stock,photo of the board,thesis text says 23K640I/SN (SOIC); a DIP socket needs the P package: read the marking
+J1A1,1,16-pin header,2.54 mm female header,yes,CPC PC02813 (cut to length),photo of the board,the schematic footprint is the male pin-header pattern; the fitted part is a female header
+J1B1,1,12-pin header,2.54 mm female header,yes,CPC PC02813 (cut to length),photo of the board,as J1A1
+J2,1,10-pin header,2.54 mm pin header,no,,photo: holes empty,optional AUX/STM32 header
+J3,1,3-pin header,2.54 mm pin header,no,,photo: holes empty,optional DS18B20 header
