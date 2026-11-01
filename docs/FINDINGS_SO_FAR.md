@@ -21,7 +21,7 @@ The tool in `pufdfm/` reads the KiCad text files directly. `python -m pufdfm rep
   It does not cover copper, silkscreen or solder mask, and the PCB file was saved after the order, so tracks could have changed; I have not compared the copper layers with the Gerbers.
 - **My first pass was wrong, and I caught it.** It reported a track 0.099 mm from R3's pad, below the board's own 0.2 mm rule. The cause was my pad model: it treated the 0805 pads' rounded corners as square. With the rounded corners
   the gap is about 0.205 mm. A test now pins that case (`test_checks.py`).
-- 35 tests pass. I also broke the tool on purpose in 19 ways (wrong rotation, square corners, same-net items, annular ring on the wrong side, drill axis flipped, BOM merging do-not-populate parts, and so on) and all 19 are caught.
+- 39 tests pass. I also broke the tool on purpose in 23 ways (wrong rotation, square corners, same-net items, annular ring on the wrong side, drill axis flipped, BOM merging do-not-populate parts, and so on) and all 23 are caught.
   The first run of that check was unreliable because Python kept a stale compiled copy of a file; I found it, switched the cache off for the check, and four gaps in my tests turned up and were closed.
 
 ## Findings
@@ -56,7 +56,8 @@ DFMEA (stage 3); alternative parts and a costed bill of materials (stage 4); a c
 
 ## Questions only the person who built it can answer
 
-1. What is printed on the chips in the sockets (the thesis text says I/SN, a DIP socket needs the P package)?
-2. Was R2 left off on purpose, and why?
-3. Did the tracks change after the 3 Aug order?
-4. The order file records 24.25 as the amount paid. In which currency, and did it include shipping?
+Answered: the chips in the sockets are marked I/P (8-lead PDIP), recorded in `bom/puf_shield_as_built.csv`.
+
+1. Was R2 left off on purpose, and why?
+2. Did the tracks change after the 3 Aug order?
+3. The order file records 24.25 as the amount paid. In which currency, and did it include shipping?

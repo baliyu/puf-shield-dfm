@@ -42,8 +42,8 @@ def rotate_point(px, py, deg):
 def parse_pcb(text):
     pcb = parse(text)
     fps = []
-    for f in find_all(pcb, "footprint"):
-        at = find(f, "at")
+    for f in find_all(pcb, "footprint") + find_all(pcb, "module"):      # "module" is the older name KiCad used before version 6
+        at = find(f, "at") or ["at", "0", "0"]                   # a footprint from a library file has no position: it sits at the origin
         x, y = _f(at[1]), _f(at[2])
         rot = _f(at[3]) if len(at) > 3 else 0.0
         pads = []
@@ -54,12 +54,12 @@ def parse_pcb(text):
             rr = find(p, "roundrect_rratio")
             drill_d = 0.0
             if drill:
-                nums = [_f(v) for v in drill[1:] if v not in ("oval",)]
+                nums = [_f(v) for v in drill[1:] if isinstance(v, str) and v != "oval"]          # skips a nested (offset ...) entry
                 drill_d = nums[0] if nums else 0.0
             pads.append({"number": str(p[1]), "type": p[2], "shape": p[3], "x": x + rx, "y": y + ry,
                          "rot": (rot + (_f(pat[3]) if len(pat) > 3 else 0.0)) % 360, "w": _f(size[1]), "h": _f(size[2]), "drill": drill_d,
                          "layers": [str(l) for l in find(p, "layers")[1:]], "net": str(net[1]) if net else "", "rratio": _f(rr[1]) if rr else 0.0})
-        fps.append({"ref": prop(f, "Reference"), "name": str(f[1]), "layer": str(find(f, "layer")[1]), "x": x, "y": y, "rot": rot, "pads": pads})
+        fps.append({"ref": prop(f, "Reference") or "REF**", "name": str(f[1]), "layer": str(find(f, "layer")[1]), "x": x, "y": y, "rot": rot, "pads": pads})
     segs = [{"x1": _f(find(s, "start")[1]), "y1": _f(find(s, "start")[2]), "x2": _f(find(s, "end")[1]), "y2": _f(find(s, "end")[2]),
              "width": _f(find(s, "width")[1]), "layer": str(find(s, "layer")[1]), "net": str(find(s, "net")[1])} for s in find_all(pcb, "segment")]
     vias = [{"x": _f(find(v, "at")[1]), "y": _f(find(v, "at")[2]), "size": _f(find(v, "size")[1]), "drill": _f(find(v, "drill")[1]),

@@ -46,3 +46,22 @@ def test_pads_tracks_vias_outline_and_text_are_read():
     r = next(f for f in pcb["footprints"] if f["ref"] == "R3")
     assert r["pads"][0]["rratio"] == 0.25 and r["pads"][0]["drill"] == 0.0
     assert [(t["height"], t["thickness"]) for t in pcb["texts"]] == [(1.0, 0.15), (0.8, 0.12), (0.9, 0.15), (1.0, 0.14)]
+
+
+def test_a_library_footprint_without_a_position_is_read_at_the_origin():
+    lib = '(footprint "X" (layer "F.Cu") (property "Reference" "REF**" (at 0 0 0)) (pad "1" thru_hole rect (at 1.27 0) (size 1 1) (drill 0.6) (layers "*.Cu" "*.Mask")))'
+    fp = kicad.parse_pcb("(kicad_pcb " + lib + ")")["footprints"][0]
+    assert (fp["x"], fp["y"], fp["rot"]) == (0.0, 0.0, 0.0) and (fp["pads"][0]["x"], fp["pads"][0]["y"]) == (1.27, 0.0)
+
+
+def test_an_older_style_module_footprint_is_read_too():
+    old = "(module TO-92_Inline (layer F.Cu) (pad 1 thru_hole rect (at 0 0) (size 1.05 1.5) (drill 0.75) (layers *.Cu *.Mask)) (pad 2 thru_hole oval (at 1.27 0) (size 1.05 1.5) (drill 0.75) (layers *.Cu *.Mask)))"
+    fp = kicad.parse_pcb("(kicad_pcb " + old + ")")["footprints"][0]
+    assert fp["name"] == "TO-92_Inline" and [p["x"] for p in fp["pads"]] == [0.0, 1.27] and fp["pads"][0]["drill"] == 0.75
+
+
+def test_a_drill_with_an_offset_or_an_oval_size_is_read_by_its_first_number():
+    lib = ('(footprint "X" (layer "F.Cu") (pad "1" thru_hole oval (at 0 0) (size 1.5 2) (drill 0.8 (offset 0 0.5)) (layers "*.Cu" "*.Mask"))'
+           ' (pad "2" thru_hole oval (at 3 0) (size 1.5 2) (drill oval 0.8 1.2) (layers "*.Cu" "*.Mask")))')
+    pads = kicad.parse_pcb("(kicad_pcb " + lib + ")")["footprints"][0]["pads"]
+    assert [p["drill"] for p in pads] == [0.8, 0.8]

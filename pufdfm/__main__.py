@@ -1,5 +1,6 @@
 """python -m pufdfm report --project DIR [--gerbers DIR]   prints the manufacturing measurements for a KiCad project
-   python -m pufdfm bom --project DIR [--out FILE]          writes the as-designed bill of materials as CSV"""
+   python -m pufdfm bom --project DIR [--out FILE]          writes the as-designed bill of materials as CSV
+   python -m pufdfm footprint FILE...                       pad gap, annular ring and hole spacing of library footprints (.kicad_mod)"""
 from __future__ import annotations
 
 import argparse
@@ -60,6 +61,22 @@ def cmd_report(args):
     return 0
 
 
+def cmd_footprint(args):
+    print(f"{'footprint':36s} pads  pad gap  ring  hole gap  pad size       drill")
+    for path in args.files:
+        fp = kicad.parse_pcb("(kicad_pcb " + Path(path).read_text(encoding="utf-8") + ")")
+        for f in fp["footprints"]:
+            if len(f["pads"]) < 2:
+                continue
+            gap = checks.pad_gaps(fp)[0][2]
+            rings = checks.annular_rings(fp)
+            hole = checks.hole_spacing(fp, 1)
+            p0 = f["pads"][0]
+            print(f"{f['name']:36s} {len(f['pads']):4d}  {gap:7.2f}  {rings[0][1] if rings else float('nan'):4.3f}  "
+                  f"{hole[0][0] if hole else float('nan'):8.2f}  {p0['w']}x{p0['h']:<8}  {p0['drill']}")
+    return 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(prog="pufdfm", description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -71,6 +88,9 @@ def main(argv=None):
     b.add_argument("--project", required=True)
     b.add_argument("--out")
     b.set_defaults(fn=cmd_bom)
+    fpc = sub.add_parser("footprint")
+    fpc.add_argument("files", nargs="+")
+    fpc.set_defaults(fn=cmd_footprint)
     args = ap.parse_args(argv)
     return args.fn(args)
 

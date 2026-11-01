@@ -76,3 +76,15 @@ def test_command_line_report_and_bom(tmp_path):
     assert "PCB holes missing from the drill files: [('J.1'" in out and "drill-file holes missing from the PCB: none" in out
     assert "holes: PCB file 6, drill files 4 (t-PTH.drl)" in out
     assert run("bom", "--project", str(tmp_path)).splitlines()[0] == "refs,qty,value,footprint,dnp"
+
+
+def test_command_line_footprint_comparison(tmp_path):
+    (tmp_path / "narrow.kicad_mod").write_text("(footprint N (layer F.Cu) (pad 1 thru_hole rect (at 0 0) (size 1.05 1.5) (drill 0.75) (layers *.Cu *.Mask))"
+                                                " (pad 2 thru_hole oval (at 1.27 0) (size 1.05 1.5) (drill 0.75) (layers *.Cu *.Mask)))", encoding="utf-8")
+    (tmp_path / "wide.kicad_mod").write_text("(footprint W (layer F.Cu) (pad 1 thru_hole rect (at 0 0) (size 1.5 1.5) (drill 0.8) (layers *.Cu *.Mask))"
+                                              " (pad 2 thru_hole oval (at 2.54 0) (size 1.5 1.5) (drill 0.8) (layers *.Cu *.Mask)))", encoding="utf-8")
+    out = subprocess.run([sys.executable, "-m", "pufdfm", "footprint", str(tmp_path / "narrow.kicad_mod"), str(tmp_path / "wide.kicad_mod")],
+                         capture_output=True, text=True, check=True).stdout.splitlines()
+    narrow = next(l for l in out if l.startswith("N ")).split()
+    wide = next(l for l in out if l.startswith("W ")).split()
+    assert narrow[2:5] == ["0.22", "0.150", "0.52"] and wide[2:5] == ["1.04", "0.350", "1.74"]

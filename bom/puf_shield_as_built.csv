@@ -6,7 +6,7 @@ R2,1,100k,0805 resistor,no,,photo: pads empty; left off on purpose per the thesi
 C3,1,10u,0805 capacitor,no,,photo: pads empty,no matching part in the parts list; the schematic does not mark it do-not-populate
 Q1,1,2N7000,TO-92 (inline 1.27 mm pads),yes,from stock,photo of the board,manufacturer and date code not recorded
 "U1, U2",2,DIP-8 socket,turned-pin DIP-8,yes,CPC SC15361,photo of the board; order code from the earlier parts list (not re-checked),
-"U1, U2 contents",2,23K640 serial SRAM,8-lead PDIP (to be confirmed),yes,from stock,photo of the board,thesis text says 23K640I/SN (SOIC); a DIP socket needs the P package: read the marking
+"U1, U2 contents",2,23K640 serial SRAM,8-lead PDIP,yes,from stock,marking read from the chips by the builder: I/P,
 J1A1,1,16-pin header,2.54 mm female header,yes,CPC PC02813 (cut to length),photo of the board,the schematic footprint is the male pin-header pattern; the fitted part is a female header
 J1B1,1,12-pin header,2.54 mm female header,yes,CPC PC02813 (cut to length),photo of the board,as J1A1
 J2,1,10-pin header,2.54 mm pin header,no,,photo: holes empty,optional AUX/STM32 header
