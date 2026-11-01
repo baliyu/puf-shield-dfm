@@ -11,7 +11,7 @@ No manufacturer reviewed it and it is not industry experience; the DFMEA scores 
 |---|---|---|
 | 1 | Tool that reads the KiCad files, as-designed and as-built BOM, manufacturing measurements, first findings | **done** ([docs/FINDINGS_SO_FAR.md](docs/FINDINGS_SO_FAR.md)) |
 | 2 | DFM review document and a Rev B change list | **done** ([docs/DFM_REVIEW.md](docs/DFM_REVIEW.md)) |
-| 3 | DFMEA: 15 failure modes, each scored with the kind of evidence behind it | **done** ([docs/DFMEA.md](docs/DFMEA.md)) |
+| 3 | DFMEA: 16 failure modes, each scored with the kind of evidence behind it | **done** ([docs/DFMEA.md](docs/DFMEA.md)) |
 | 4 | Alternative parts (each checked against its datasheet) and cost at 1, 10 and 100 | not started |
 | 5 | Results table and limits | not started |
 
