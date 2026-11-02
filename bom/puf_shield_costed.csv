@@ -5,7 +5,7 @@ Q1,1,yes,"2N7000 N-channel MOSFET, TO-92",Diotec 2N7000,DigiKey UK,GBP,1:0.20;10
 "C1, C2",2,yes,"100 nF 0805 X7R 50 V",CPC CA07634,CPC,GBP,,,,,,,"Not priced yet"
 R3,1,yes,"4.7 kOhm 0805 1%",CPC RE08049,CPC,GBP,,,,,,,"Not priced yet"
 "J1A1, J1B1",2,yes,"2.54 mm female header, 16 and 12 positions (cut from 40-way)",CPC PC02813,CPC,GBP,,,,,,,"Not priced yet; the 40-way strip is cut to length so the unit cost depends on how the strips are used"
-PCB,1,yes,"2-layer FR-4 shield, 50.8 x 24.5 mm, 5 made",JLCPCB 2-layer 5 boards,JLCPCB,,,,,,,"The order file records 24.25 for 5 boards (currency and shipping not known) so it is left unpriced here"
+PCB,1,yes,"2-layer FR-4 shield, 50.8 x 24.5 mm, 5 made",JLCPCB 2-layer 5 boards,JLCPCB,,,,,,,"24.25 GBP including shipping for 5 boards per the builder, so 4.85 per board at that order size. Left out of the 1, 10 and 100 board totals because JLCPCB's price per board changes with quantity"
 "R1, R2",2,no,"0 ohm and 100 kOhm 0805 resistors",,,GBP,,,,,,,"Not fitted on the photographed board; R1 is needed (see DFMEA D03)"
 C3,1,no,"10 uF 0805",,,GBP,,,,,,,"Not fitted"
 "J2, J3",2,no,"2.54 mm pin headers, 10 and 3 positions",,,GBP,,,,,,,"Not fitted (optional)"

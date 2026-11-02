@@ -39,7 +39,7 @@ Severity is my judgement: **A** worth changing in a next revision, **B** minor o
 | 7 | No copper zones: no ground plane or pour, all 145 track segments are 0.2 mm | `zones = 0`; track widths | fabricable; worth noting for a board whose thesis found ground-plane geometry mattered | B |
 | 8 | The surface finish ordered is leaded HASL | order specification | fine for a research board; a product would need lead-free HASL or ENIG | B |
 | 9 | R2 (the 100 kOhm gate pull-down) is left off, so Q1's gate floats whenever the host pin is not driving it (reset, boot) | schematic nets `/GATE_DRV`; photos | design decision to confirm; carried into the DFMEA | A, to confirm |
-| 14 | R1 is the only connection between the host's gate-drive pin and Q1's gate, and the build plan left it empty, so Q1 would be undriven unless a wire or solder link was added | `pufdfm net`: the host gate net is on J2.8, J1B1.10 and R1.1 only; Q1's gate net is on Q1.2, R1.2 and R2.1 only; photo: R1 pads empty; the August notes show the host pin toggling while Q1's gate did not | none (design analysis); to be confirmed by a continuity test | A, to confirm |
+| 14 | R1 is the only connection between the host's gate-drive pin and Q1's gate, and the build plan left it empty, so Q1 would be undriven unless a wire or solder link was added | `pufdfm net`: the host gate net is on J2.8, J1B1.10 and R1.1 only; Q1's gate net is on Q1.2, R1.2 and R2.1 only; photo: R1 pads empty; the August notes show the host pin toggling while Q1's gate did not | none (design analysis); the builder states the shield worked as intended, so the working board must have had the gate linked; the photographed board may not be that one | A, as a design weakness |
 | 10 | Spacing: the smallest gap between copper of different nets is **0.202 mm** | computed with rounded pad corners | project rule 0.2 mm; JLCPCB 0.10 mm | C |
 | 11 | Copper to board edge 0.762 mm (via) | computed | project rule 0.5 mm; JLCPCB 0.2 mm | C |
 | 12 | Plated hole edge to a track of another net 0.400 mm | computed | JLCPCB minimum 0.28 mm, recommended 0.35 mm | C |
@@ -57,8 +57,8 @@ DFMEA (stage 3); alternative parts and a costed bill of materials (stage 4); a c
 
 ## Unknown, and recorded as unknown
 
-1. How the host's gate pin reached Q1's gate on the board that ran captures (R1 fitted, or a link added): the builder does not remember and the August notes do not say.
+1. How the host's gate pin reached Q1's gate on the board that ran captures (R1 fitted, or a link added): the builder does not remember and the notes do not say.
 2. Why R2 was left off: not remembered.
-3. Whether the shield was ever made to work after 24 Aug 2026: not in the notes reviewed.
+3. Whether the shield worked: the builder states it worked as intended; the notes reviewed end on 24 Aug 2026 with the fault unresolved, so I have not verified it.
 4. Whether the tracks changed after the 3 Aug order.
-5. The order file records 24.25 as the amount paid: currency, and whether shipping is included, not known.
+5. The PCB order: 24.25 GBP including shipping for 5 boards, per the builder (4.85 per board at that order size).

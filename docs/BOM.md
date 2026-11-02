@@ -11,7 +11,7 @@ Status: **3 of the 7 fitted lines are priced.** The totals below are therefore p
 | U1, U2 sockets: DIP-8 turned pin (CPC SC15361), 2 per board | 0.44 / 0.44 / 0.34 each | CPC search snippet; the one-off price was not shown, so the 10-off price stands in | search snippet |
 | Q1: 2N7000 (Diotec), 1 per board | 0.20 / 0.123 / 0.0765 | DigiKey UK search snippet | search snippet |
 
-Priced fitted lines, per board: **2.30 GBP at 1 board, 2.22 at 10, 1.91 at 100.** Not yet priced: C1 and C2 (100 nF 0805), R3 (4.7 kOhm 0805), J1A1 and J1B1 (female headers) and the bare PCB. The order file records 24.25 for 5 boards but not the currency or whether it includes shipping, so I have not turned it into a per-board price.
+Priced fitted lines, per board: **2.30 GBP at 1 board, 2.22 at 10, 1.91 at 100.** Not yet priced: C1 and C2 (100 nF 0805), R3 (4.7 kOhm 0805) and J1A1 and J1B1 (female headers). The bare PCB cost 24.25 GBP including shipping for 5 boards (the builder's figure), which is 4.85 per board at that order size; I have kept it out of the totals above because JLCPCB's price per board changes with quantity, so it should not be copied to 10 or 100 boards.
 A price break is chosen from the number of parts ordered (parts per board times boards), which is why the SRAM stays at 0.61 for 10 boards: 20 chips is still below the 25-off break.
 
 Two things the page itself shows that matter more than the pennies: DigiKey UK charges 22 GBP delivery on orders under 65 GBP, which is several times the priced parts for a single board, so a build should be ordered in one basket; and the lead time on the SRAM page was 5 weeks when read, while older cached copies of the same page showed 9 to 36 weeks, so it moves.
@@ -28,4 +28,4 @@ Two things the page itself shows that matter more than the pennies: DigiKey UK c
 
 ## Not done yet
 
-Prices for C1, C2, R3, the headers and the PCB; alternatives for the passives, sockets and headers; the maker of the 2N7000 actually fitted (so the leg-order check is against the right datasheet); supply-risk notes for the rest; a delivery-inclusive cost for a one-off build.
+Prices for C1, C2, R3 and the headers, and the PCB at other quantities; alternatives for the passives, sockets and headers; the maker of the 2N7000 actually fitted (so the leg-order check is against the right datasheet); supply-risk notes for the rest; a delivery-inclusive cost for a one-off build.
