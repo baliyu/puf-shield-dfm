@@ -1,5 +1,6 @@
 """python -m pufdfm report --project DIR [--gerbers DIR]   prints the manufacturing measurements for a KiCad project
    python -m pufdfm bom --project DIR [--out FILE]          writes the as-designed bill of materials as CSV
+   python -m pufdfm cost FILE [--boards 1 10 100]            cost per board of the priced BOM at several build sizes
    python -m pufdfm dfmea FILE [--markdown]                  checks a DFMEA table and prints it ranked by risk priority number
    python -m pufdfm net --project DIR NAME...                which pads, tracks and vias are on a net
    python -m pufdfm footprint FILE...                       pad gap, annular ring and hole spacing of library footprints (.kicad_mod)"""
@@ -9,7 +10,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from . import bom, checks, dfmea, drill, kicad
+from . import bom, checks, costing, dfmea, drill, kicad
 
 
 def _one(directory, pattern):
@@ -63,6 +64,21 @@ def cmd_report(args):
     return 0
 
 
+def cmd_cost(args):
+    rows = costing.load(Path(args.file).read_text(encoding="utf-8"))
+    problems = costing.validate(rows)
+    if problems:
+        print("\n".join(problems))
+        return 1
+    for n in args.boards:
+        total, lines, unpriced, cur = costing.cost(rows, n)
+        print(f"{n} board(s): {total:.2f} {'/'.join(sorted(cur)) or '?'} per board for the priced fitted lines ({len(lines)} priced, {len(unpriced)} unpriced)")
+        for refs, up, line in lines:
+            print(f"    {refs:12s} unit {up:.4f}  line {line:.4f}")
+    print("unpriced fitted lines (not counted as free):", "; ".join(unpriced) if unpriced else "none")
+    return 0
+
+
 def cmd_dfmea(args):
     rows = dfmea.load(Path(args.file).read_text(encoding="utf-8"))
     problems = dfmea.validate(rows)
@@ -113,6 +129,10 @@ def main(argv=None):
     b.add_argument("--project", required=True)
     b.add_argument("--out")
     b.set_defaults(fn=cmd_bom)
+    c = sub.add_parser("cost")
+    c.add_argument("file")
+    c.add_argument("--boards", type=int, nargs="+", default=[1, 10, 100])
+    c.set_defaults(fn=cmd_cost)
     d = sub.add_parser("dfmea")
     d.add_argument("file")
     d.add_argument("--markdown", action="store_true")
