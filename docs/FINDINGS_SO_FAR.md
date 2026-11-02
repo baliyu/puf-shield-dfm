@@ -59,6 +59,6 @@ DFMEA (stage 3); alternative parts and a costed bill of materials (stage 4); a c
 
 1. How the host's gate pin reached Q1's gate on the board that ran captures (R1 fitted, or a link added): the builder does not remember and the notes do not say.
 2. Why R2 was left off: not remembered.
-3. Whether the shield worked: the builder states it worked as intended; the notes reviewed end on 24 Aug 2026 with the fault unresolved, so I have not verified it.
+3. Whether the shield worked: the builder states it worked as intended. My notes of 28 Aug 2026 record a valid first capture, that the examiners asked only for the design, and continuity at Q1 as the one open issue; no Hamming distance was computed, so I have not verified more than that.
 4. Whether the tracks changed after the 3 Aug order.
 5. The PCB order: 24.25 GBP including shipping for 5 boards, per the builder (4.85 per board at that order size).
